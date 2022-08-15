@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: 'ingress-{{ item.service }}-{{ item.host }}'
+  annotations:
+    kubernetes.io/ingress.class: "{{ ingress_class }}"
+spec:
+  rules:
+  - host: 'item.url'
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: '{{ item.service }}'
+            port:
+              number: '{{ item.port }}'

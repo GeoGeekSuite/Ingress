@@ -1,0 +1,22 @@
+---
+# tasks file for ingress
+- name: Set ingress class for microk8s
+  set_fact:
+    ingress_class: "public"
+  when: k8s_flavour == 'microk8s'
+- name: Render Ingress Definition
+  template:
+    src: ingress_deployment.j2.yaml
+    dest: '{{ manifest_folder }}/ingress_deployment_{{ item.name }}.yaml'
+  with_items: '{{ ingress }}'
+- name: Remove Existing
+  shell:
+    cmd: 'kubectl delete -f ingress_deployment_{{ item.name }}.yaml -n {{ gisnamespace }}'
+    chdir: '{{ manifest_folder }}'
+  with_items: '{{ ingress_resolvable_names }}'
+  ignore_errors: true
+- name: Create Ingress Deployment
+  shell:
+    cmd: 'kubectl apply -f ingress_deployment_{{ item.name }}.yaml -n {{ gisnamespace }}'
+    chdir: '{{ manifest_folder }}'
+  with_items: '{{ ingress_resolvable_names }}'
