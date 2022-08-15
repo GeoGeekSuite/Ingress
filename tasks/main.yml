@@ -13,10 +13,10 @@
   shell:
     cmd: 'kubectl delete -f ingress_deployment_{{ item.name }}.yaml -n {{ gisnamespace }}'
     chdir: '{{ manifest_folder }}'
-  with_items: '{{ ingress_resolvable_names }}'
+  with_items: '{{ ingress }}'
   ignore_errors: true
 - name: Create Ingress Deployment
   shell:
     cmd: 'kubectl apply -f ingress_deployment_{{ item.name }}.yaml -n {{ gisnamespace }}'
     chdir: '{{ manifest_folder }}'
-  with_items: '{{ ingress_resolvable_names }}'
+  with_items: '{{ ingress }}'
