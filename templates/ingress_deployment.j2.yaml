@@ -16,4 +16,4 @@ spec:
           service:
             name: '{{ item.service }}'
             port:
-              number: '{{ item.port }}'
+              number: {{ item.port }}
