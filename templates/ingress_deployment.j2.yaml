@@ -10,10 +10,11 @@ spec:
   - host: '{{ item.url }}'
     http:
       paths:
-      - path: /
+      - path: '/'
         pathType: ImplementationSpecific
         backend:
           service:
             name: '{{ item.service }}'
             port:
               number: {{ item.port }}
+
